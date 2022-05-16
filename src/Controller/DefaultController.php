@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\EditProductFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -58,11 +59,7 @@ class DefaultController extends AbstractController
         } else {
             $product = $entityManager->getRepository(Product::class)->find($id);
         }
-        $form = $this->createFormBuilder($product)
-            ->add('title', TextType::class)
-            ->add('price', NumberType::class)
-            ->add('quantity', IntegerType::class)
-            ->getForm();
+        $form = $this->createForm(EditProductFormType::class, $product);
 
         /*  Receive request from form.
             Takes the POST’ed data from the previous request, processes it,
@@ -72,7 +69,6 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Get data from form
             $data = $form->getData();
-            // dd($data);
             // Prepare object to insert
             $entityManager->persist($product);
             // Update DB
