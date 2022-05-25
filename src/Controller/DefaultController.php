@@ -49,8 +49,8 @@ class DefaultController extends AbstractController
     }
     */
 
-    #[Route('/edit-product/{id}', methods: ['GET', 'POST'], name: 'edit_product', requirements: ['id' => '\d+'])]
-    #[Route('/add-product', methods: ['GET','POST'], name: 'add_product')]
+//    #[Route('/edit-product/{id}', methods: ['GET', 'POST'], name: 'edit_product', requirements: ['id' => '\d+'])]
+//    #[Route('/add-product', methods: ['GET','POST'], name: 'add_product')]
     public function editProduct(Request $request, EntityManagerInterface $entityManager, int $id = null): Response
     {
         if (!$id) {
