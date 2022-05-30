@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product;
 use App\Form\EditProductFormType;
+use App\Form\Handler\ProductFormHandler;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,19 +34,19 @@ class ProductController extends AbstractController
 
     #[Route('/add', name: 'add')]
     #[Route('/edit/{id}', name: 'edit')]
-    public function edit(Request $request, EntityManagerInterface $entityManager, Product $product = null): Response
+    public function edit(Request $request, ProductFormHandler $productFormHandler, Product $product = null): Response
     {
         $form = $this->createForm(EditProductFormType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $productFormHandler->processEditForm($product, $form);
 
             return $this->redirectToRoute('admin_product_list');
         }
 
         return $this->render('admin/product/edit.html.twig', [
+            'images' => $product->getProductImages(),
             'product' => $product,
             'form' => $form->createView()
         ]);
@@ -54,6 +55,6 @@ class ProductController extends AbstractController
     #[Route('/delete/{id}', name: 'delete')]
     public function delete(): Response
     {
-
+        //@TODO: Delete product
     }
 }
