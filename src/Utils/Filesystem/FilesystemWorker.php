@@ -16,10 +16,23 @@ class FilesystemWorker
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param string $folder
+     */
     public function createFolder(string $folder)
     {
         if (!$this->filesystem->exists($folder)) {
             $this->filesystem->mkdir($folder);
+        }
+    }
+
+    /**
+     * @param string $filePath
+     */
+    public function removeFile(string $filePath)
+    {
+        if ($this->filesystem->exists($filePath)) {
+            $this->filesystem->remove($filePath);
         }
     }
 }

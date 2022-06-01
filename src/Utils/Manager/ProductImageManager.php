@@ -93,4 +93,25 @@ class ProductImageManager
 
         return $productImage;
     }
+
+    /**
+     * @param ProductImage $productImage
+     * @param string $productImagesDir
+     */
+    public function removeImage(ProductImage $productImage, string $productImagesDir)
+    {
+        $smallFilePath = $productImagesDir . '/' . $productImage->getFilenameSmall();
+        $this->filesystemWorker->removeFile($smallFilePath);
+
+        $middleFilePath = $productImagesDir . '/' . $productImage->getFilenameMiddle();
+        $this->filesystemWorker->removeFile($middleFilePath);
+
+        $bigFilePath = $productImagesDir . '/' . $productImage->getFilenameBig();
+        $this->filesystemWorker->removeFile($bigFilePath);
+
+        $product = $productImage->getProduct();
+        $product->removeProductImage($productImage);
+
+        $this->entityManager->flush();
+    }
 }
