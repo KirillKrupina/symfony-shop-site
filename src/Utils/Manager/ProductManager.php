@@ -45,9 +45,10 @@ class ProductManager
         return $repository;
     }
 
-    public function remove()
+    public function remove(Product $product)
     {
-        //
+        $product->setIsDeleted(true);
+        $this->save($product);
     }
 
     /**

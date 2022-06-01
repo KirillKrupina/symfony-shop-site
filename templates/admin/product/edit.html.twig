@@ -5,23 +5,12 @@
 {% block body %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <a href="{{ path('admin_product_list') }}" class="font-weight-bold text-primary">Product</a>
-                    <div class="ml-2 mr-2">/</div>
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        {% if product and product.id %}
-                            Edit
-                        {% else %}
-                            Add new
-                        {% endif %}
-                    </h6>
-                </div>
-                <a href="{{ path('admin_product_add') }}"
-                   class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50"></i> Add new
-                </a>
-            </div>
+            {% include 'admin/_embed/_card/_breadcrumbs.html.twig' with {
+                'sectionTitle': 'Products',
+                'listActionUrl' : path('admin_product_list'),
+                'addActionUrl' : path('admin_product_add'),
+                'entity' : product
+            } %}
         </div>
         <div class="card-body">
             {{ form_start(form) }}
@@ -34,6 +23,15 @@
                     <div class="form-error">
                         {{ form_errors(form.title) }}
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-1">
+                    Slug
+                </div>
+                <div class="col-md-11">
+                    {{ product.slug }}
                 </div>
             </div>
 
@@ -95,10 +93,12 @@
                 {% for image in images %}
                     <div class="row mt-2">
                         <div class="col-md-5">
-                            <img src="{{ asset('uploads/images/products/' ~ product.id ~ '/' ~ image.filenameMiddle) }}" alt="{{ image.filenameMiddle }}" style="width: 150px; margin: auto">
+                            <img src="{{ asset('uploads/images/products/' ~ product.id ~ '/' ~ image.filenameMiddle) }}"
+                                 alt="{{ image.filenameMiddle }}" style="width: 150px; margin: auto">
                         </div>
                         <div class="col-md-7">
-                            <a href="{{ path('admin_product_image_delete', {'id': image.id}) }}" class="btn btn-outline-info">
+                            <a href="{{ path('admin_product_image_delete', {'id': image.id}) }}"
+                               class="btn btn-outline-info">
                                 DELETE
                             </a>
                         </div>
@@ -130,23 +130,11 @@
 
             <hr/>
 
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <a href="{{ path('admin_product_list') }}" class="" style="text-decoration: none">
-                        <i class="fas fa-arrow-circle-left fa-lg" style="color: black"></i>
-                    </a>
-                    <a href="{{ product ? path('admin_product_edit', {'id': product.id}) : path('admin_product_add') }}" class="btn btn-default">
-                        <button type="submit" class="btn btn-primary">
-                            Save changes
-                        </button>
-                    </a>
-                </div>
-                {% if product %}
-                    <a class="btn btn-white" data-toggle="modal" data-target="#approveDeleteModal">
-                        <i class="fas fa-times fa-sm"></i> Delete row
-                    </a>
-                {% endif %}
-            </div>
+            {% include 'admin/_embed/_card/_form_buttons.html.twig' with {
+                'listActionUrl' : path('admin_product_list'),
+                'modifyActionUrl' : product.id ? path('admin_product_edit', {'id': product.id}) : path('admin_product_add'),
+                'entity' : product
+            } %}
 
             {{ form_rest(form) }}
             {{ form_end(form) }}
@@ -154,24 +142,9 @@
     </div>
 
     {% if product and product.id %}
-        <div class="modal fade" id="approveDeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Are you sure?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Product will be deleted</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary"
-                           href="{{ path('admin_product_delete', {'id': product.id}) }}">Delete row</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include 'admin/_embed/_card/_modal_delete.html.twig' with {
+            'deleteActionUrl' : path('admin_product_delete', {'id': product.id}),
+        } %}
     {% endif %}
 
 

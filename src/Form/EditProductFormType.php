@@ -57,7 +57,7 @@ class EditProductFormType extends AbstractType
             ])
             ->add('newImage', FileType::class, [
                 'label' => 'Image',
-                'required' => true,
+                'required' => false,
                 // Field is not exist in the entity
                 'mapped' => false,
                 'attr' => [
