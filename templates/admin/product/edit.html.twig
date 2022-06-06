@@ -31,7 +31,9 @@
                     Slug
                 </div>
                 <div class="col-md-11">
-                    {{ product.slug }}
+                    {% if product %}
+                        {{ product.slug }}
+                    {% endif %}
                 </div>
             </div>
 
@@ -132,7 +134,7 @@
 
             {% include 'admin/_embed/_card/_form_buttons.html.twig' with {
                 'listActionUrl' : path('admin_product_list'),
-                'modifyActionUrl' : product.id ? path('admin_product_edit', {'id': product.id}) : path('admin_product_add'),
+                'modifyActionUrl' : product ? path('admin_product_edit', {'id': product.id}) : path('admin_product_add'),
                 'entity' : product
             } %}
 

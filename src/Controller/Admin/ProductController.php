@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\EditProductFormType;
 use App\Form\Handler\ProductFormHandler;
+use App\Form\Model\EditProductModel;
 use App\Repository\ProductRepository;
 use App\Utils\Manager\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,21 +38,19 @@ class ProductController extends AbstractController
     #[Route('/edit/{id}', name: 'edit')]
     public function edit(Request $request, ProductFormHandler $productFormHandler, Product $product = null): Response
     {
-        if (!$product) {
-            $product = new Product();
-        }
+        $editProductModel = EditProductModel::makeFromProduct($product);
 
-        $form = $this->createForm(EditProductFormType::class, $product);
+        $form = $this->createForm(EditProductFormType::class, $editProductModel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $productFormHandler->processEditForm($product, $form);
+            $productFormHandler->processEditForm($editProductModel, $form);
 
             return $this->redirectToRoute('admin_product_list');
         }
 
         $images = [];
-        if ($product->getProductImages()->getValues()) {
+        if ($product) {
             $images = $product->getProductImages()->getValues();
         }
 

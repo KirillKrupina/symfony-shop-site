@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Form\Model\EditProductModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -12,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EditProductFormType extends AbstractType
 {
@@ -24,9 +24,6 @@ class EditProductFormType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control'
-                ],
-                'constraints' => [
-                    new NotBlank([], 'Should be filled')
                 ]
             ])
             ->add('price', NumberType::class, [
@@ -58,8 +55,8 @@ class EditProductFormType extends AbstractType
             ->add('newImage', FileType::class, [
                 'label' => 'Image',
                 'required' => false,
-                // Field is not exist in the entity
-                'mapped' => false,
+                // Field is not exist in the entity (if using form with entity and without model)
+                // 'mapped' => false,
                 'attr' => [
                     'class' => 'form-control-file'
                 ]
@@ -89,7 +86,7 @@ class EditProductFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Product::class,
+            'data_class' => EditProductModel::class
         ]);
     }
 }
