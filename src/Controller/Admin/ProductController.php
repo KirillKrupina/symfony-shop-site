@@ -8,7 +8,6 @@ use App\Form\Handler\ProductFormHandler;
 use App\Form\Model\EditProductModel;
 use App\Repository\ProductRepository;
 use App\Utils\Manager\ProductManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +45,13 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $productFormHandler->processEditForm($editProductModel, $form);
 
+            $this->addFlash('success', 'Your changes were saved!');
+
             return $this->redirectToRoute('admin_product_list');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('warning', 'Something went wrong...');
         }
 
         $images = [];
@@ -65,6 +70,9 @@ class ProductController extends AbstractController
     public function delete(Product $product, ProductManager $productManager): Response
     {
         $productManager->remove($product);
+
+        $this->addFlash('warning', 'The product was deleted!');
+
         return $this->redirectToRoute('admin_product_list');
     }
 }
