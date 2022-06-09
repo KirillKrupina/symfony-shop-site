@@ -48,6 +48,9 @@ class Product
     #[ORM\Column(type: 'string', length: 128, nullable: true)]
     private $slug;
 
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    private $category;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -189,6 +192,18 @@ class Product
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
