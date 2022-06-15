@@ -28,7 +28,7 @@
                                         <div class="product-item">
                                             <figure class="product-media">
                                                 <span class="product-sale-status sale-status-new">New</span>
-                                                <a href="#">
+                                                <a href="{{ path('main_product_show', {'uuid': product.uuid}) }}">
                                                     <img
                                                             src="{{ asset('uploads/images/products/' ~ product.id ~ '/' ~ cover.filenameMiddle) }}"
                                                             alt="{{ product.title }}"

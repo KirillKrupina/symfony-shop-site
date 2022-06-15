@@ -18,15 +18,15 @@ class DefaultController extends AbstractController
     public function index(Session $session): Response
     {
         // getDoctrine is deprecated. Will stay here for example
-        $entityManager = $this->getDoctrine()->getManager();
-        $categories = $entityManager->getRepository(Category::class)->findBy(
-            ['isDeleted' => false],
-            ['id' => 'DESC']
-        );
+        // $entityManager = $this->getDoctrine()->getManager();
+//        $categories = $entityManager->getRepository(Category::class)->findBy(
+//            ['isDeleted' => false],
+//            ['id' => 'DESC']
+//        );
 
         // Set categories in session to use everywhere in templates.
         // Need fix in future if find best example to create a global var in twig
-        $session->set('session_categories', $categories);
+        // $session->set('session_categories', $categories);
 
         return $this->render('main/default/index.html.twig', []);
     }

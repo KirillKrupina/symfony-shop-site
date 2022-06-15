@@ -1,0 +1,12 @@
+{% set categoriesCount = categories|length %}
+{% if categoriesCount %}
+    {% for category in categories %}
+        <li class="menu-item">
+            <a href="{{ path('main_category_show', {
+                'slug': category.slug
+            }) }}">
+                <div>{{ category.title }}</div>
+            </a>
+        </li>
+    {% endfor %}
+{% endif %}

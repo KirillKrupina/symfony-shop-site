@@ -41,7 +41,7 @@
                                             type="number"
                                             id="product_full_filter_quantity"
                                             class="form-control"
-                                            value="0"
+                                            value="1"
                                             min="1"
                                             max="{{ product.quantity }}"
                                             step="1"
@@ -59,6 +59,17 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ render(controller('App\\Controller\\EmbedController::showLastProducts', {
+                        'productsCount': 4,
+                        'categoryId': product.category.id
+                    })) }}
                 </div>
             </div>
         </div>
