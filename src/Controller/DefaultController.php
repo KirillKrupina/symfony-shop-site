@@ -2,29 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\EditProductFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'main_homepage')]
-    public function index(): Response
+    public function index(Session $session): Response
     {
-        // getDoctrine is deprecated
+        // getDoctrine is deprecated. Will stay here for example
         $entityManager = $this->getDoctrine()->getManager();
-        $productList = $entityManager->getRepository(Product::class)->findAll();
+        $categories = $entityManager->getRepository(Category::class)->findBy(
+            ['isDeleted' => false],
+            ['id' => 'DESC']
+        );
 
-        return $this->render('main/default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        // Set categories in session to use everywhere in templates.
+        // Need fix in future if find best example to create a global var in twig
+        $session->set('session_categories', $categories);
+
+        return $this->render('main/default/index.html.twig', []);
     }
 
     /*
