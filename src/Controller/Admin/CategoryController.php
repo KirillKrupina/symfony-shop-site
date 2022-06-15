@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
-use App\Form\EditCategoryFormType;
+use App\Form\Admin\EditCategoryFormType;
 use App\Form\Handler\CategoryFormHandler;
 use App\Form\Model\EditCategoryModel;
 use App\Repository\CategoryRepository;

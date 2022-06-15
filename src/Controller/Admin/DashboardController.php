@@ -16,6 +16,9 @@ class DashboardController extends AbstractController
     #[Route(path: '/dashboard', name: 'admin_dashboard_show')]
     public function dashboard(): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('admin_security_login');
+        }
         return $this->render(
             'admin/pages/dashboard.html.twig'
         );
