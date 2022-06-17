@@ -1,0 +1,159 @@
+{% extends 'admin/layout/layout_main.html.twig' %}
+
+{% block title_detailed %}Edit Order{% endblock %}
+
+{% block body %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            {% include 'admin/_embed/_card/_breadcrumbs.html.twig' with {
+                'sectionTitle': 'Order',
+                'listActionUrl' : path('admin_order_list'),
+                'addActionUrl' : path('admin_order_add'),
+                'entity' : order
+            } %}
+        </div>
+
+        <div class="card-body">
+            {{ form_start(form) }}
+
+            {% if isAdd == false %}
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <p style="color: #777;
+                              font-size: 1.2rem;
+                              font-weight: 300;
+                              margin: 0 0 1rem;"
+                        >
+                            Id:
+                        </p>
+                    </div>
+                    <div class="col-md-11">
+                        #{{ order.id }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <p style="color: #777;
+                              font-size: 1.2rem;
+                              font-weight: 300;
+                              margin: 0 0 1rem;"
+                        >
+                            Created At:
+                        </p>
+                    </div>
+                    <div class="col-md-11">
+                        {{ order.createdAt|date('H:i:s d/m/Y') }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <p style="color: #777;
+                              font-size: 1.2rem;
+                              font-weight: 300;
+                              margin: 0 0 1rem;"
+                        >
+                            Updated At:
+                        </p>
+                    </div>
+                    <div class="col-md-11">
+                        {{ order.updatedAt|date('H:i:s d/m/Y') }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-group row">
+                <div class="col-md-1">
+                    {{ form_label(form.owner) }}
+                </div>
+                <div class="col-md-11">
+                    {{ form_widget(form.owner) }}
+                    <div class="form-error">
+                        {{ form_errors(form.owner) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-1">
+                    {{ form_label(form.status) }}
+                </div>
+                <div class="col-md-11">
+                    {{ form_widget(form.status) }}
+                    <div class="form-error">
+                        {{ form_errors(form.status) }}
+                    </div>
+                </div>
+            </div>
+
+            {% if order.orderProducts|length %}
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <p style="color: #777;
+                              font-size: 1.2rem;
+                              font-weight: 300;
+                              margin: 0 0 1rem;"
+                        >
+                            Products:
+                        </p>
+                    </div>
+                    <div class="col-md-11">
+                        {% for orderProduct in order.orderProducts %}
+                            <div>
+                                {% set product = orderProduct.product %}
+                                # {{ product.id }} - {{ product.title }} - Q: {{ orderProduct.quantity }}
+                                - {{ orderProduct.pricePerOne|format_currency('USD') }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <p style="color: #777;
+                              font-size: 1.2rem;
+                              font-weight: 300;
+                              margin: 0 0 1rem;"
+                        >
+                            Total price:
+                        </p>
+                    </div>
+                    <div class="col-md-11">
+                        {{ order.totalPrice|format_currency('USD') }}
+                    </div>
+                </div>
+
+            {% endif %}
+
+            <div class="form-group row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11 pl-5">
+                    {{ form_widget(form.isDeleted) }}
+                    {{ form_label(form.isDeleted) }}
+                    <div class="form-error">
+                        {{ form_errors(form.isDeleted) }}
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            {% include 'admin/_embed/_card/_form_buttons.html.twig' with {
+                'listActionUrl' : path('admin_order_list'),
+                'modifyActionUrl' : order and order.id ? path('admin_order_edit', {'id': order.id}) : path('admin_order_add'),
+                'entity' : order
+            } %}
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    {% if order and order.id %}
+        {% include 'admin/_embed/_card/_modal_delete.html.twig' with {
+            'itemName': 'Order',
+            'deleteActionUrl' : path('admin_order_delete', {'id': order.id})
+        } %}
+    {% endif %}
+{% endblock %}
