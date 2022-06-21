@@ -8,25 +8,73 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
+
+/**
+ * Class Product
+ * @package App\Entity
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get" = {
+ *             "normalization_context" = {"groups" = "product:list"}
+ *           },
+ *          "post" = {
+ *              "security" = "is_granted('ROLE_ADMIN')",
+ *              "normalization_context" = {"groups" = "product:list:write"}
+ *          }
+ *     },
+ *     itemOperations = {
+ *           "get" = {
+ *              "normalization_context" = {"groups" = "product:item"}
+ *           },
+ *          "patch" = {
+ *              "security" = "is_granted('ROLE_ADMIN')",
+ *              "normalization_context" = {"groups" = "product:item:write"}
+ *           }
+ *     },
+ *     order = {
+ *          "id"="DESC"
+ *     },
+ *     attributes={
+ *          "pagination_client_items_per_page" = true,
+ *          "formats" = {"jsonld", "json"}
+ *     },
+ *     paginationEnabled = true
+ * )
+ * @ApiFilter(BooleanFilter::class, properties={"isPublished"})
+ * @ApiFilter(SearchFilter::class, properties={"category": "exact"})
+ */
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['product:list', 'product:item'])]
+    #[ApiProperty(identifier: false)]
     private $id;
 
     #[ORM\Column(type: 'uuid', nullable: false)]
+    #[Groups(['product:list', 'product:item'])]
+    #[ApiProperty(identifier: true)]
     private $uuid;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['product:list', 'product:list:write','product:item:write', 'product:item'])]
     private $title;
 
     #[ORM\Column(type: 'decimal', precision: 6, scale: 2)]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
     private $price;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
     private $quantity;
 
     #[ORM\Column(type: 'datetime')]
@@ -49,6 +97,7 @@ class Product
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
     private $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartProduct::class, orphanRemoval: true)]
