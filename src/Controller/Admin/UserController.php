@@ -68,8 +68,8 @@ class UserController extends AbstractController
     {
         $userManager->remove($user);
 
-        $this->addFlash('warning', 'The category was deleted!');
+        $this->addFlash('warning', 'The user was deleted!');
 
-        return $this->redirectToRoute('admin_category_list');
+        return $this->redirectToRoute('admin_user_list');
     }
 }
