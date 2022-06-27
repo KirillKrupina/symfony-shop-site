@@ -4,41 +4,7 @@
     </button>
     <nav class="mobile-nav">
         <ul class="mobile-menu">
-            <li class="menu-item">
-                <a href="#">
-                    <div>Jeans</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <div>Hats</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <div>Jackets</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <div>Dresses</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <div>Sneakers</div>
-                </a>
-            </li>
-            <li class="menu-item font-weight-bold">
-                <a href="{{ path('main_login') }}">
-                    <div>Login</div>
-                </a>
-            </li>
-            <li class="menu-item font-weight-bold">
-                <a href="#">
-                    <div>Cart</div>
-                </a>
-            </li>
+            {{ render(controller('App\\Controller\\Main\\EmbedController::showCategories')) }}
         </ul>
     </nav>
 </div>
