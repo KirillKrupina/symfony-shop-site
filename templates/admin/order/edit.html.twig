@@ -2,6 +2,10 @@
 
 {% block title_detailed %}Edit Order{% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('appAdminOrder') }}
+{% endblock %}
+
 {% block body %}
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -99,13 +103,14 @@
                         </p>
                     </div>
                     <div class="col-md-11">
-                        {% for orderProduct in order.orderProducts %}
-                            <div>
-                                {% set product = orderProduct.product %}
-                                # {{ product.id }} - {{ product.title }} - Q: {{ orderProduct.quantity }}
-                                - {{ orderProduct.pricePerOne|format_currency('USD') }}
-                            </div>
-                        {% endfor %}
+                        <div id="app"></div>
+                        {#                        {% for orderProduct in order.orderProducts %}#}
+                        {#                            <div>#}
+                        {#                                {% set product = orderProduct.product %}#}
+                        {#                                # {{ product.id }} - {{ product.title }} - Q: {{ orderProduct.quantity }}#}
+                        {#                                - {{ orderProduct.pricePerOne|format_currency('USD') }}#}
+                        {#                            </div>#}
+                        {#                        {% endfor %}#}
                     </div>
                 </div>
 
@@ -156,4 +161,8 @@
             'deleteActionUrl' : path('admin_order_delete', {'id': order.id})
         } %}
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('appAdminOrder') }}
 {% endblock %}

@@ -1,10 +1,10 @@
 const $ = require('jquery');
-require('bootstrap');
-
 global.$ = global.jQuery = $;
 
 require('jquery.easing');
 require('chart.js');
+
+require('bootstrap');
 
 require('./js/section/admin/theme/sb-admin-2');
 

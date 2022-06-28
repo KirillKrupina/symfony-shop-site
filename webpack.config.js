@@ -22,6 +22,8 @@ Encore
     .addEntry('section-main', './assets/section-main.js')
     .addEntry('section-admin', './assets/section-admin.js')
 
+    .addEntry('appAdminOrder', './assets/js/section/admin/admin-order/app.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
 
@@ -43,6 +45,7 @@ Encore
      * list of features, see:
      * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
+    .enableVueLoader()
     .enableSassLoader()
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
