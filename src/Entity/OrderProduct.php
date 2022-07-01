@@ -4,13 +4,37 @@ namespace App\Entity;
 
 use App\Repository\OrderProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
+/**
+ * Class OrderProduct
+ * @package App\Entity
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get" = {
+ *             "normalization_context" = {"groups" = "order_product:list"}
+ *           },
+ *          "post" = {
+ *              "security" = "is_granted('ROLE_ADMIN')",
+ *              "normalization_context" = {"groups" = "order_product:list:write"}
+ *          }
+ *     },
+ *     itemOperations={
+ *     "get"={},
+ *     "delete"={
+ *          "security"="is_granted('ROLE_ADMIN')"
+ *          }
+ *     }
+ * )
+ */
 #[ORM\Entity(repositoryClass: OrderProductRepository::class)]
 class OrderProduct
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['order_product:list', 'order_product:item'])]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderProducts')]

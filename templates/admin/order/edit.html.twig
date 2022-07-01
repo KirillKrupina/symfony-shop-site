@@ -38,11 +38,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <p style="color: #777;
-                              font-size: 1.2rem;
-                              font-weight: 300;
-                              margin: 0 0 1rem;"
-                        >
+                        <p>
                             Created At:
                         </p>
                     </div>
@@ -53,11 +49,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <p style="color: #777;
-                              font-size: 1.2rem;
-                              font-weight: 300;
-                              margin: 0 0 1rem;"
-                        >
+                        <p>
                             Updated At:
                         </p>
                     </div>
@@ -94,11 +86,7 @@
             {% if order.orderProducts|length %}
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <p style="color: #777;
-                              font-size: 1.2rem;
-                              font-weight: 300;
-                              margin: 0 0 1rem;"
-                        >
+                        <p>
                             Products:
                         </p>
                     </div>
@@ -116,11 +104,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <p style="color: #777;
-                              font-size: 1.2rem;
-                              font-weight: 300;
-                              margin: 0 0 1rem;"
-                        >
+                        <p>
                             Total price:
                         </p>
                     </div>
@@ -164,5 +148,12 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        window.staticStore = {};
+        window.staticStore.orderId = '{{ order ? order.id : '' }}';
+        window.staticStore.orderProducts = {{ orderProducts|json_encode|raw }};
+        window.staticStore.urlViewProduct = '{{ path('admin_product_edit_blank') }}';
+        window.staticStore.urlApiOrderProduct = '{{ path('api_order_products_get_collection') }}';
+    </script>
     {{ encore_entry_script_tags('appAdminOrder') }}
 {% endblock %}

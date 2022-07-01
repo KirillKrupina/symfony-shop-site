@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 
 
 use App\Entity\Order;
+use App\Entity\OrderProduct;
 use App\Form\Admin\EditOrderFormType;
 use App\Form\Handler\OrderFormHandler;
 use App\Repository\OrderRepository;
@@ -63,8 +64,26 @@ class OrderController extends AbstractController
             $this->addFlash('warning', 'Something went wrong...');
         }
 
+        $orderProducts = [];
+        /** @var OrderProduct $product */
+        foreach ($order->getOrderProducts()->getValues() as $product) {
+            $orderProducts[] = [
+                'id' => $product->getId(),
+                'product' => [
+                    'id' => $product->getProduct()->getId(),
+                    'title' => $product->getProduct()->getTitle(),
+                    'category' => [
+                        'id' => $product->getProduct()->getCategory()->getId(),
+                        'title' => $product->getProduct()->getCategory()->getTitle()
+                    ],
+                ],
+                'quantity' => $product->getQuantity(),
+                'pricePerOne' => $product->getPricePerOne()
+            ];
+        }
         return $this->render('admin/order/edit.html.twig', [
             'order' => $order,
+            'orderProducts' => $orderProducts,
             'isAdd' => $isAdd,
             'form' => $form->createView()
         ]);

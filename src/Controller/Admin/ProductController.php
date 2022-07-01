@@ -35,6 +35,7 @@ class ProductController extends AbstractController
 
     #[Route('/add', name: 'add')]
     #[Route('/edit/{id}', name: 'edit')]
+    #[Route('/edit', name: 'edit_blank')]
     public function edit(Request $request, ProductFormHandler $productFormHandler, Product $product = null): Response
     {
         $editProductModel = EditProductModel::makeFromProduct($product);
