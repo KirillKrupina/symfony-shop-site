@@ -36,16 +36,6 @@ class EditOrderFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
-            ])
-            ->add('isDeleted', CheckboxType::class, [
-                'label' => 'Is deleted',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input'
-                ],
-                'label_attr' => [
-                    'class' => 'form-check-label'
-                ]
             ]);
     }
 

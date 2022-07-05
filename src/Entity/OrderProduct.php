@@ -34,21 +34,24 @@ class OrderProduct
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['order_product:list', 'order_product:item'])]
+    #[Groups(['order_product:list', 'order_product:item', 'order:list', 'order:item'])]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderProducts')]
+    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderProducts', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private $appOrder;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'orderProducts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['order:list', 'order:item'])]
     private $product;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['order_product:list', 'order_product:item', 'order:list', 'order:item'])]
     private $quantity;
 
     #[ORM\Column(type: 'decimal', precision: 6, scale: 2)]
+    #[Groups(['order_product:list', 'order_product:item', 'order:list', 'order:item'])]
     private $pricePerOne;
 
     public function getId(): ?int

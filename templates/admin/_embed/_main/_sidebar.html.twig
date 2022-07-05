@@ -19,14 +19,14 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders"
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOrders"
            aria-expanded="true" aria-controls="collapseOrders">
             <i class="fas fa-fw fa-credit-card"></i>
             <span>Orders</span>
         </a>
-        <div id="collapseOrders" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseOrders" class="collapse" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
             <div class="py-2 collapse-inner">
-                <a class="collapse-item" href="{{ path('admin_order_list') }}">All list</a>
+                <a class="collapse-item" href="{{ path('admin_order_list') }}">All orders</a>
                 <a class="collapse-item" href="{{ path('admin_order_add') }}">Add new</a>
             </div>
         </div>
@@ -39,28 +39,28 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts"
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProducts"
            aria-expanded="true" aria-controls="collapseProducts">
             <i class="fas fa-fw fa-cubes"></i>
             <span>Products</span>
         </a>
-        <div id="collapseProducts" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseProducts" class="collapse" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
             <div class="py-2 collapse-inner">
-                <a class="collapse-item" href="{{ path('admin_product_list') }}">All list</a>
+                <a class="collapse-item" href="{{ path('admin_product_list') }}">All products</a>
                 <a class="collapse-item" href="{{ path('admin_product_add') }}">Add new</a>
             </div>
         </div>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategories"
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategories"
            aria-expanded="true" aria-controls="collapseCategories">
             <i class="fas fa-fw fa-folder"></i>
             <span>Categories</span>
         </a>
-        <div id="collapseCategories" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseCategories" class="collapse" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
             <div class="py-2 collapse-inner">
-                <a class="collapse-item" href="{{ path('admin_category_list') }}">All list</a>
+                <a class="collapse-item" href="{{ path('admin_category_list') }}">All categories</a>
                 <a class="collapse-item" href="{{ path('admin_category_add') }}">Add new</a>
             </div>
         </div>
@@ -75,12 +75,12 @@
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers"
                aria-expanded="true" aria-controls="collapseUsers">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Users</span>
             </a>
-            <div id="collapseUsers" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseUsers" class="collapse" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner">
                     <a class="collapse-item" href="{{ path('admin_user_list') }}">All users</a>
                     <a class="collapse-item" href="{{ path('admin_user_add') }}">Add new</a>

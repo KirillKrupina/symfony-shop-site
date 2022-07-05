@@ -10,7 +10,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             {% include 'admin/_embed/_card/_breadcrumbs.html.twig' with {
-                'sectionTitle': 'Order',
+                'sectionTitle': 'Orders',
                 'listActionUrl' : path('admin_order_list'),
                 'addActionUrl' : path('admin_order_add'),
                 'entity' : order
@@ -20,14 +20,10 @@
         <div class="card-body">
             {{ form_start(form) }}
 
-            {% if isAdd == false %}
+            {% if order.id %}
                 <div class="form-group row">
                     <div class="col-md-1">
-                        <p style="color: #777;
-                              font-size: 1.2rem;
-                              font-weight: 300;
-                              margin: 0 0 1rem;"
-                        >
+                        <p>
                             Id:
                         </p>
                     </div>
@@ -83,48 +79,29 @@
                 </div>
             </div>
 
-            {% if order.orderProducts|length %}
-                <div class="form-group row">
-                    <div class="col-md-1">
-                        <p>
-                            Products:
-                        </p>
-                    </div>
-                    <div class="col-md-11">
-                        <div id="app"></div>
-                        {#                        {% for orderProduct in order.orderProducts %}#}
-                        {#                            <div>#}
-                        {#                                {% set product = orderProduct.product %}#}
-                        {#                                # {{ product.id }} - {{ product.title }} - Q: {{ orderProduct.quantity }}#}
-                        {#                                - {{ orderProduct.pricePerOne|format_currency('USD') }}#}
-                        {#                            </div>#}
-                        {#                        {% endfor %}#}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-1">
-                        <p>
-                            Total price:
-                        </p>
-                    </div>
-                    <div class="col-md-11">
-                        {{ order.totalPrice|format_currency('USD') }}
-                    </div>
-                </div>
-
-            {% endif %}
-
+            {% if order.id %}
             <div class="form-group row">
-                <div class="col-md-1"></div>
-                <div class="col-md-11 pl-5">
-                    {{ form_widget(form.isDeleted) }}
-                    {{ form_label(form.isDeleted) }}
-                    <div class="form-error">
-                        {{ form_errors(form.isDeleted) }}
-                    </div>
+                <div class="col-md-1">
+                    <p>
+                        Products:
+                    </p>
+                </div>
+                <div class="col-md-11">
+                    <div id="app"></div>
                 </div>
             </div>
+
+            <div class="form-group row">
+                <div class="col-md-1">
+                    <p>
+                        Total price:
+                    </p>
+                </div>
+                <div class="col-md-11">
+                    {{ order.totalPrice|format_currency('USD') }}
+                </div>
+            </div>
+            {% endif %}
 
             <hr/>
 
@@ -149,11 +126,13 @@
 
 {% block javascripts %}
     <script>
-        window.staticStore = {};
-        window.staticStore.orderId = '{{ order ? order.id : '' }}';
-        window.staticStore.orderProducts = {{ orderProducts|json_encode|raw }};
-        window.staticStore.urlViewProduct = '{{ path('admin_product_edit_blank') }}';
-        window.staticStore.urlApiOrderProduct = '{{ path('api_order_products_get_collection') }}';
+		window.staticStore = {};
+		window.staticStore.orderId = '{{ order ? order.id : '' }}';
+		window.staticStore.urlViewProduct = '{{ path('admin_product_edit_blank') }}';
+		window.staticStore.urlApiOrderProduct = '{{ path('api_order_products_get_collection') }}';
+		window.staticStore.urlApiCategories = '{{ path('api_categories_get_collection') }}';
+		window.staticStore.urlApiProducts = '{{ path('api_products_get_collection') }}';
+		window.staticStore.urlApiOrders = '{{ path('api_orders_get_collection') }}';
     </script>
     {{ encore_entry_script_tags('appAdminOrder') }}
 {% endblock %}

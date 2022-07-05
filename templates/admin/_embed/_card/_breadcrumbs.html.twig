@@ -10,8 +10,10 @@
             {% endif %}
         </h6>
     </div>
-    <a href="{{ addActionUrl }}"
-       class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50"></i> Add new
-    </a>
+    {% if entity and entity.id %}
+        <a href="{{ addActionUrl }}"
+           class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Add new
+        </a>
+    {% endif %}
 </div>

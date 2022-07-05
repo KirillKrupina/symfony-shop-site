@@ -56,25 +56,25 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:list', 'product:item'])]
+    #[Groups(['product:list', 'product:item', 'order:list', 'order:item'])]
     #[ApiProperty(identifier: false)]
     private $id;
 
     #[ORM\Column(type: 'uuid', nullable: false)]
-    #[Groups(['product:list', 'product:item'])]
+    #[Groups(['product:list', 'product:item', 'order:list', 'order:item'])]
     #[ApiProperty(identifier: true)]
     private $uuid;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['product:list', 'product:list:write','product:item:write', 'product:item'])]
+    #[Groups(['product:list', 'product:list:write','product:item:write', 'product:item', 'order:list', 'order:item'])]
     private $title;
 
     #[ORM\Column(type: 'decimal', precision: 6, scale: 2)]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
     private $price;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
     private $quantity;
 
     #[ORM\Column(type: 'datetime')]
@@ -97,7 +97,7 @@ class Product
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
     private $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartProduct::class, orphanRemoval: true)]

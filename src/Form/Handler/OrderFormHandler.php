@@ -30,6 +30,7 @@ class OrderFormHandler
      */
     public function processEditForm(Order $order): ?Order
     {
+        $this->orderManager->calculateOrderTotalPrice($order);
         $this->orderManager->save($order);
         return $order;
     }

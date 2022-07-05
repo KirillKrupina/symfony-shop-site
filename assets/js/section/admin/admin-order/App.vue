@@ -1,27 +1,44 @@
 <template>
     <div class="table-additional-selection">
+        <OrderProductAdd/>
         <hr/>
+        <PulseLoader :loading="!isLoaded" color="#36b9cc" class="text-center"/>
         <OrderProductItem
-                v-for="(orderProduct, index) in staticStore.orderProducts"
+                v-if="isLoaded"
+                v-for="(orderProduct, index) in orderProducts"
                 :key="orderProduct.id"
                 :order-product="orderProduct"
                 :index="index"
         />
         <hr/>
+        <OrderTotalPrice/>
     </div>
 </template>
 
 <script>
-	import {mapState} from "vuex";
+	import {mapActions, mapState} from "vuex";
 	import OrderProductItem from "./components/OrderProductItem";
+	import OrderProductAdd from "./components/OrderProductAdd";
+	import OrderTotalPrice from "./components/OrderTotalPrice";
+
+	import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 	export default {
-		components: {OrderProductItem},
+		components: {OrderProductItem, OrderProductAdd, OrderTotalPrice, PulseLoader},
 		created() {
-			console.log(window.staticStore)
+			this.getCategories();
+			this.getOrderProducts();
 		},
 		computed: {
-			...mapState('products', ['staticStore']),
+			...mapState('products', [
+				'orderProducts', 'isLoaded'
+			]),
+		},
+		methods: {
+			...mapActions('products', [
+				'getCategories',
+				'getOrderProducts'
+			])
 		}
 	}
 </script>

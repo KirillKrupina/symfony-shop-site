@@ -50,7 +50,7 @@
 				return this.index + 1;
 			},
 			productTitle() {
-				return this.orderProduct.product.title;
+				return '#' + this.orderProduct.product.id + ' ' + this.orderProduct.product.title;
 			},
 			categoryTitle() {
 				return this.orderProduct.product.category.title;
