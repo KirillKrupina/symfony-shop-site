@@ -68,31 +68,9 @@ class OrderManager extends AbstractBaseManager
 
         $order->setOwner($user);
         $order->setStatus(OrderStaticStorage::ORDER_STATUS_CREATED);
-        $orderTotalPrice = 0;
 
-        $cartProducts = $cart->getCartProducts()->getValues();
-        /**
-         * @var CartProduct $cartProduct
-         */
-        foreach ($cartProducts as $cartProduct) {
-            $product = $cartProduct->getProduct();
-
-            $orderProduct = new OrderProduct();
-            $orderProduct->setAppOrder($order);
-            $orderProduct->setQuantity($cartProduct->getQuantity());
-            $orderProduct->setPricePerOne($product->getPrice());
-            $orderProduct->setProduct($product);
-
-            $orderTotalPrice += $orderProduct->getQuantity() * $orderProduct->getPricePerOne();
-
-            $order->addOrderProduct($orderProduct);
-
-            $this->entityManager->persist($orderProduct);
-            $this->entityManager->remove($cartProduct);
-        }
-
-        $order->setTotalPrice($orderTotalPrice);
-        $order->setUpdatedAt(new \DateTimeImmutable());
+        $this->addOrderProductsFromCart($order, $cart->getId());
+        $this->recalculateOrderTotalPrice($order);
 
         $this->save($order);
 
@@ -137,4 +115,41 @@ class OrderManager extends AbstractBaseManager
         $order->setIsDeleted(true);
         $this->save($order);
     }
+
+    public function addOrderProductsFromCart(Order $order, int $cartId)
+    {
+        /** @var Cart $cart */
+        $cart = $this->cartManager->getRepository()->find($cartId);
+
+        if ($cart) {
+            foreach ($cart->getCartProducts()->getValues() as $cartProduct) {
+                $product = $cartProduct->getProduct();
+
+                $orderProduct = new OrderProduct();
+                $orderProduct->setAppOrder($order);
+                $orderProduct->setQuantity($cartProduct->getQuantity());
+                $orderProduct->setPricePerOne($product->getPrice());
+                $orderProduct->setProduct($product);
+
+                $order->addOrderProduct($orderProduct);
+                $this->entityManager->persist($orderProduct);
+            }
+        }
+    }
+
+    /**
+     * @param Order $order
+     */
+    public function recalculateOrderTotalPrice(Order $order)
+    {
+        $orderTotalPrice = 0;
+
+        /** @var OrderProduct $orderProduct */
+        foreach ($order->getOrderProducts()->getValues() as $orderProduct) {
+            $orderTotalPrice += $orderProduct->getQuantity() * $orderProduct->getPricePerOne();
+        }
+
+        $order->setTotalPrice($orderTotalPrice);
+    }
+
 }

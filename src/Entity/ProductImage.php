@@ -2,15 +2,34 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * Class ProductImage
+ * @package App\Entity
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get" = {
+ *             "normalization_context" = {"groups" = "product_image:list"}
+ *           }
+ *     },
+ *     itemOperations = {
+ *           "get" = {
+ *              "normalization_context" = {"groups" = "product_image:item"}
+ *           }
+ *     }
+ * )
+ */
 #[ORM\Entity(repositoryClass: ProductImageRepository::class)]
 class ProductImage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productImages')]
@@ -24,6 +43,7 @@ class ProductImage
     private $filenameMiddle;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $filenameSmall;
 
     public function getId(): ?int

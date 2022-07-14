@@ -18,7 +18,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "normalization_context" = {"groups" = "order:list"}
  *           },
  *          "post" = {
- *              "security" = "is_granted('ROLE_ADMIN')",
  *              "normalization_context" = {"groups" = "order:list:write"}
  *          }
  *     },

@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/product/{uuid}', name: 'main_product_show')]
+    #[Route('/product', name: 'main_product_show_blank')]
     public function show(Product $product = null): Response
     {
         if (!$product) {

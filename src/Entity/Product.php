@@ -56,25 +56,25 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:list', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(["product:list", "order:item", "cart_product:list", "cart_product:item", "cart:list", "cart:item"])]
     #[ApiProperty(identifier: false)]
     private $id;
 
     #[ORM\Column(type: 'uuid', nullable: false)]
-    #[Groups(['product:list', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(["product:list", "product:item", "order:item", "cart_product:list", "cart_product:item", "cart:list", "cart:item"])]
     #[ApiProperty(identifier: true)]
     private $uuid;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['product:list', 'product:list:write','product:item:write', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(['product:list', 'product:list:write','product:item:write', 'product:item', 'order:list', 'order:item', 'cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $title;
 
     #[ORM\Column(type: 'decimal', precision: 6, scale: 2)]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item', 'cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $price;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item', 'cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $quantity;
 
     #[ORM\Column(type: 'datetime')]
@@ -90,6 +90,7 @@ class Product
     private $isDeleted;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Groups(['cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $productImages;
 
     #[Gedmo\Slug(fields: ["title"])]
@@ -97,7 +98,7 @@ class Product
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
-    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item'])]
+    #[Groups(['product:list', 'product:list:write', 'product:item:write', 'product:item', 'order:list', 'order:item', 'cart:list', 'cart:item', 'cart_product:list', 'cart_product:item'])]
     private $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartProduct::class, orphanRemoval: true)]

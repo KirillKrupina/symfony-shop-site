@@ -2,26 +2,52 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * Class Cart
+ * @package App\Entity
+ * @ApiResource(
+ *     collectionOperations = {
+ *          "get" = {
+ *             "normalization_context" = {"groups" = "cart:list"}
+ *           },
+ *          "post" = {
+ *              "security" = "is_granted('ROLE_ADMIN')",
+ *              "normalization_context" = {"groups" = "cart:list:write"}
+ *          }
+ *     },
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context" = {"groups" = "cart:item"}
+ *          },
+ *          "delete"={}
+ *     }
+ * )
+ */
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['cart:list', 'cart:item'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['cart:list', 'cart:item'])]
     private $sessionId;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartProduct::class)]
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartProduct::class, orphanRemoval: true)]
+    #[Groups(['cart:list', 'cart:item'])]
     private $cartProducts;
 
     public function __construct()
