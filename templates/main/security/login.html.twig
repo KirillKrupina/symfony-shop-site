@@ -24,10 +24,8 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="rememberMe" name="_remember_me">
-                                    <label class="custom-control-label" for="rememberMe">Remember Me</label>
-                                </div>
+                                    <label style="margin-left: -1.6rem;" class="custom-control-label" for="rememberMe">Remember Me</label>
                             </div>
 
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -36,7 +34,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <span>LOG IN</span>
                                 </button>
-                                <a href="{{ path('main_registration') }}" class="btn btn-link btn-dark">
+                                <a href="{{ path('main_registration') }}" class="btn btn-link btn-dark" style="text-decoration: none">
                                     <i class="fas fa-user"></i>
                                     <span>Create an account</span>
                                 </a>
@@ -45,7 +43,7 @@
                             <div class="form-additional mt-2 pt-1">
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
-                                        <a href="#">
+                                        <a href="{{ path('main_forgot_password_request') }}">
                                             Or reset your password
                                         </a>
                                     </div>
