@@ -22,7 +22,7 @@
 
 .logotype img {
     display: block;
-    width: 100%;
+    width: 20%;
     min-height: 30px;
 }
 
@@ -50,7 +50,7 @@
     }
     .logotype img {
         display: block;
-        max-width: 100%;
+        max-width: 20%;
         height: auto;
     }
 }
