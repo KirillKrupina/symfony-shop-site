@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   database:
+    container_name: db-local
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
       POSTGRES_DB: clothes_shop
