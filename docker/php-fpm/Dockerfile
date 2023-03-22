@@ -1,13 +1,14 @@
 FROM php:8.1.0-fpm-alpine
 
 RUN apk add --no-cache curl git build-base zip libzip-dev libpq-dev oniguruma-dev libpng libjpeg-turbo-dev freetype-dev autoconf bash
+RUN apk add --update linux-headers
 
 RUN docker-php-ext-configure zip
 RUN docker-php-ext-install zip
 
 #Install xdebug
-#RUN pecl install xdebug && docker-php-ext-enable xdebug
-#COPY ./docker/php-fpm/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY ./php-fpm/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 #Install Redis
 #RUN pecl install redis && docker-php-ext-enable redis
